@@ -56,7 +56,7 @@ public class AboutBox extends JFrame {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel, BorderLayout.CENTER);
 		
-		JLabel lblNewLabel_1 = new JLabel("<html>\r\nThis program uses the <b>JFlashPlayer</b> API<br>\r\n&copy; 2011 VersaEdge Software, LLC.<br>\r\n<br>\r\nThis program requires<br> <b>Adobe Flash Player 9</b><br> and newer.\r\n</html>");
+		JLabel lblNewLabel_1 = new JLabel("<html><center>\r\nThis program uses the <b>JFlashPlayer</b> API<br>\r\n&copy; 2011 VersaEdge Software, LLC.<br>\r\n<br>\r\nThis program requires<br> <b>Adobe Flash Player 9</b><br> and newer.\r\n</center></html>");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblNewLabel_1, BorderLayout.EAST);
 	}

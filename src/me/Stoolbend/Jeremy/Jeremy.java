@@ -10,8 +10,6 @@ import javax.swing.JMenuItem;
 import com.jpackages.jflashplayer.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 // Set parallel port input
 import parport.ParallelPort;
@@ -26,6 +24,7 @@ public class Jeremy{
 	private JMenuBar TopMenu;
 	private FlashPanel flashPanel;
 	private JMenu mnTools;
+	private JMenuItem openControlPad;
 	
 	public static void main(String[] args){
 			
@@ -53,13 +52,7 @@ public class Jeremy{
 		// Create the flash panel
 				try {	
 					String flashFilePath = "resources/getcam.swf";
-					flashPanel = new FlashPanel(new File(flashFilePath));					
-					flashPanel.addKeyListener(new KeyAdapter() {
-						@Override
-						public void keyPressed(KeyEvent e) {
-							
-						}
-					});
+					flashPanel = new FlashPanel(new File(flashFilePath));
 				} catch (JFlashLibraryLoadFailedException e) {			
 					e.printStackTrace(); //("A required library (DLL) is missing or damaged.");
 				} catch (FileNotFoundException e) {
@@ -68,7 +61,7 @@ public class Jeremy{
 					e.printStackTrace(); //exitError("Required version " + flashVersionRequired + " of Flash is not installed.");
 				}
 		
-		mainWindow.setTitle("Jeremy - Version 0.3");
+		mainWindow.setTitle("Jeremy - Version 0.5");
 		mainWindow.setResizable(false);
 		mainWindow.getContentPane().add(flashPanel, BorderLayout.CENTER);
 		mainWindow.setJMenuBar(getTopMenu());
@@ -126,8 +119,21 @@ public class Jeremy{
 	private JMenu getMnTools() {
 		if (mnTools == null) {
 			mnTools = new JMenu("Tools");
+			mnTools.add(getOpenControlPad());
 			mnTools.add(getPortTest());
 		}
 		return mnTools;
+	}
+	private JMenuItem getOpenControlPad() {
+		if (openControlPad == null) {
+			openControlPad = new JMenuItem("Control Pad");
+			openControlPad.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					ControlPad controlpad = new ControlPad();
+					controlpad.setVisible(true);
+				}
+			});
+		}
+		return openControlPad;
 	}
 }
