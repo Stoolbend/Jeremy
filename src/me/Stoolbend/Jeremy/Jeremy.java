@@ -1,40 +1,45 @@
 package me.Stoolbend.Jeremy;
 
 import java.awt.BorderLayout;
-//import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-//import javax.swing.JPanel;
 import com.jpackages.jflashplayer.*;
-
-import org.dyno.visual.swing.layouts.GroupLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+// Set parallel port input
+import parport.ParallelPort;
+
+
 public class Jeremy{
 		
 	public JFrame mainWindow;
 	private JMenuItem About;
+	private JMenuItem PortTest;
 	private JMenu Jmenu;
 	private JMenuBar TopMenu;
-	
-	FlashPanel flashPanel;
+	private FlashPanel flashPanel;
+	private JMenu mnTools;
 	
 	public static void main(String[] args){
 			
-			System.load("C:/Java/JFlash/atl2k.dll");
-			System.load("C:/Java/JFlash/jflash.dll");
+			System.load("C:/Java/DILLS/atl2k.dll");
+			System.load("C:/Java/DILLS/jflash.dll");
+			System.load("C:/Java/DILLS/parport.dll");
 			
 			Jeremy jezza = new Jeremy();
 			jezza.mainWindow.setVisible(true);
 			
+	}
+	
+	public Jeremy() {
+		createFrame();
 	}
 	
 	private void createFrame() {
@@ -70,35 +75,11 @@ public class Jeremy{
 		mainWindow.setSize(600, 423);
 	}
 	
-	/*
-	 private JPanel getCameraFrame() {
-	 
-		
-		// Create the flash panel
-		try {	
-			String flashFilePath = "resources/getcam.swf";
-			flashPanel = new FlashPanel(new File(flashFilePath));					
-		} catch (JFlashLibraryLoadFailedException e) {			
-			e.printStackTrace(); //("A required library (DLL) is missing or damaged.");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace(); //exitError("Failed to find SWF file specified.");
-		} catch (JFlashInvalidFlashException e) {
-			e.printStackTrace(); //exitError("Required version " + flashVersionRequired + " of Flash is not installed.");
-		}
-		
-		CameraFrame = new JPanel();
-		CameraFrame.setBackground(new Color(254, 194, 141));
-		CameraFrame.setLayout(new GroupLayout());
-		//CameraFrame.add(flashPanel, BorderLayout.CENTER);
-		
-		return CameraFrame;
-	}
-	*/
-
 	private JMenuBar getTopMenu() {
 		if (TopMenu == null) {
 			TopMenu = new JMenuBar();
 			TopMenu.add(getJmenu());
+			TopMenu.add(getMnTools());
 		}
 		return TopMenu;
 	}
@@ -126,9 +107,27 @@ public class Jeremy{
 		}
 		return About;
 	}
+	
+	private JMenuItem getPortTest() {
+		if (PortTest == null) {
+			PortTest = new JMenuItem();
+			PortTest.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg1) {
 
-	public Jeremy() {
-		createFrame();
+					ParallelPort port = new ParallelPort(0x378);
+					port.write(54);
+				}
+			});
+			PortTest.setText("Port Test");
+		}
+		return PortTest;
 	}
 	
+	private JMenu getMnTools() {
+		if (mnTools == null) {
+			mnTools = new JMenu("Tools");
+			mnTools.add(getPortTest());
+		}
+		return mnTools;
+	}
 }
